@@ -17,6 +17,7 @@ export class AuthService {
         }
       })
   
+      const { password, ...rest } = user;
       //TODO:GENERATE AUTH(USER) ENTITY
       const token = await jwtAdapter.generateToken({ id: user.id });
       if ( !token ) throw CustomError.badRequest('Error while creating JWT');
@@ -25,7 +26,7 @@ export class AuthService {
       
 
       return {
-        user,
+        user: rest,
         token
       }
 
@@ -46,12 +47,12 @@ export class AuthService {
     try {
       
       //TODO:GENERATE AUTH(USER) ENTITY
-
+      const { password, ...rest } = user;
       const token = await jwtAdapter.generateToken({ id: user.id });
       if ( !token ) throw CustomError.badRequest('Error while creating JWT');
 
       return {
-        user,
+        user: rest,
         token
       }
     } catch (error) {
@@ -60,8 +61,14 @@ export class AuthService {
   }
 
 
-  public renew = async( token: string ) => {
+  public renew = async( id: string  ) => {
+    
+    const token = await jwtAdapter.generateToken({id: id});
+    if ( !token ) throw CustomError.badRequest('Error while creating JWT');
 
+    return {
+      token
+    }
   }
 
 };

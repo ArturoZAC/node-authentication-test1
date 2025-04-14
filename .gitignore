@@ -1,3 +1,4 @@
 node_modules
 /postgres
 .env
+README.md

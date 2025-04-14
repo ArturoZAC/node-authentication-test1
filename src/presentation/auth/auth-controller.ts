@@ -36,7 +36,11 @@ export class AuthController {
   }
 
   public renewAuth = ( req: Request, res: Response ) => {
-    return res.json('Renew Auth')
+
+    this.authService.renew( (req as any).user.id )
+      .then( token => res.status(200).json(token) )
+      .catch( error => this.handleError(error, res))
+
   }
 
 };
